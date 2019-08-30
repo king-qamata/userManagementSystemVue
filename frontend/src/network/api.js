@@ -36,3 +36,9 @@ export const uploadAD = (params) => {
   })
 }
 
+export const getADList = () => {
+  return requests({
+    url: '/getADList'
+  })
+}
+

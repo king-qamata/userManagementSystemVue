@@ -99,7 +99,7 @@ export default {
             // 需要在 el-form-item 上添加 prop 属性
             this.$refs.refForm.resetFields()
             // this.$nextTick(() => { this.$refs.refForm.resetFields() })
-            this.$router.push({ path: '/about' })
+            // this.$router.push({ path: '/about' })
           }
         })
         .catch(res => {
