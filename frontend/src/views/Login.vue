@@ -10,7 +10,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button id="login-btn" type="primary" @click="submitForm('ruleForm2')">提交</el-button>
+        <el-button type="primary" class="login-btn" @click="submitForm('ruleForm2')">提交</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -48,7 +48,7 @@ export default {
 h3 {
   text-align: center;
 }
-#login-btn {
+login-btn {
   margin: 0 auto;
 }
 </style>

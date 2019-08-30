@@ -27,3 +27,12 @@ export const editUser = params => {
   })
 }
 
+export const uploadAD = (params) => {
+  return requests({
+    url: '/upload/' + new Date().getTime(),
+    data: params,
+    headers: ({ 'Content-Type': 'multipart/form-data' }),
+    method: 'post'
+  })
+}
+
