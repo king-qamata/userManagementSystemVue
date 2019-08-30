@@ -3,7 +3,15 @@ from django.http import HttpResponse
 import sqlite3
 import json
 import copy
-import xlrd
+import os
+
+
+def get_photo(request):
+    print('获取图片:', request.path[1:])
+    with open(request.path[1:], "rb") as f:
+        photo = f.read()
+    return HttpResponse(photo, content_type="image/jpg")
+
 
 def get_list(request):
     conn = sqlite3.connect('userManagement.db')  # 连接数据库
@@ -96,12 +104,10 @@ def add_user(request):
 
 
 def upload(request):
-    print(request.method)
-    print(request.path)
-    print(type(request.POST))
-    for k, v in dict(request.POST).items():
-        print(k, v)
-    with open('./1.jpg', 'wb+') as f:
+    # print(request.POST['name'])
+    # for k, v in dict(request.POST).items():
+    #     print(k, v)
+    with open('./photos/{}.jpg'.format(request.POST['name']), 'wb+') as f:
         f.write(request.FILES.get('file').read())
     ret = HttpResponse('success')
     # 允许http://127.0.0.1:8001域向我发请求
@@ -110,4 +116,17 @@ def upload(request):
         # 所有的头信息都允许
         ret['Access-Control-Allow-Headers'] = '*'
 
+    return ret
+
+
+def get_advertisement_list(request):
+    # for root, dirs, files in os.walk('photos'):
+    data = os.listdir('photos')
+    # data = ['wf1.jpg', 'wf2.jpg', 'wf3.jpg', '1.jpg']
+    ret = HttpResponse(json.dumps(data))
+    # 允许http://127.0.0.1:8001域向我发请求
+    ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    if request.method == 'OPTIONS':
+        # 所有的头信息都允许
+        ret['Access-Control-Allow-Headers'] = '*'
     return ret

@@ -6,5 +6,7 @@ urlpatterns = [
     path('removeUser', views.remove_user),
     path('editUser', views.edit_user),
     path('addUser', views.add_user),
-    re_path(r'^upload/', views.upload)
+    path('getADList', views.get_advertisement_list),
+    re_path(r'^upload/', views.upload),
+    re_path(r'photos/*', views.get_photo)
 ]
