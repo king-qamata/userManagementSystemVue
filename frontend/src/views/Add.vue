@@ -53,18 +53,26 @@ export default {
       this.$refs[formName].validate(valid => {
         //   如果通过
         if (valid) {
-          addUser(this.form).then(() => {
-            this.$message({
-              showClose: true,
-              message: '添加成功',
-              type: 'success'
+          addUser(this.form)
+            .then(() => {
+              this.$message({
+                showClose: true,
+                message: '添加成功',
+                type: 'success'
+              })
+              this.$router.push({ path: '/home' })
             })
-            this.$router.push({ path: '/home' })
-          })
+            .catch((res) => {
+              this.$message({
+                showClose: true,
+                message: `添加失败,${res}`,
+                type: 'error'
+              })
+            })
         } else {
           this.$message({
             showClose: true,
-            message: '添加失败',
+            message: '请正确填写表单',
             type: 'error'
           })
         }

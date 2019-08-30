@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- 显示表单 -->
-    <el-table :data="tableData" style="width: 100%">
+    <el-table v-loading="tableDataLoading" :data="tableData" style="width: 100%">
       <el-table-column label="姓名" width="100">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -45,7 +45,7 @@
     <el-dialog title="编辑" :visible.sync="dialogVisible" width="50%">
       <el-form ref="editForm" label-width="80px" :model="editForm">
         <el-form-item label="姓名">
-          <el-input v-model="editForm.name" disabled="true" />
+          <el-input v-model="editForm.name" :disabled="true" />
         </el-form-item>
 
         <el-form-item label="出生日期">
@@ -88,6 +88,7 @@ import { getList, removeUser, editUser } from '../network/api'
 export default {
   data() {
     return {
+      tableDataLoading: true,
       dialogVisible: false,
       tableData: [],
       // 编辑数据
@@ -112,31 +113,57 @@ export default {
     },
     handleDelete(index, row) {
       // console.log(index, row.name);
-      removeUser({ name: row.name }).then(() => {
-        this.$message({
-          showClose: true,
-          message: '删除成功',
-          type: 'success'
+      removeUser({ name: row.name })
+        .then(() => {
+          this.$message({
+            showClose: true,
+            message: '删除成功',
+            type: 'success'
+          })
+          this.getData()
         })
-        this.getData()
-      })
+        .catch((res) => {
+          this.$message({
+            showClose: true,
+            message: `删除失败，${res}`,
+            type: 'error'
+          })
+        })
     },
     editSubmit() {
       // console.log(this.editForm);
-      editUser(this.editForm).then(() => {
-        this.$message({
-          showClose: true,
-          message: '更新成功',
-          type: 'success'
+      this.dialogVisible = false
+      editUser(this.editForm)
+        .then(() => {
+          this.$message({
+            showClose: true,
+            message: '更新成功',
+            type: 'success'
+          })
+          this.getData()
         })
-        this.getData()
-        this.dialogVisible = false
-      })
+        .catch((res) => {
+          this.$message({
+            type: 'error',
+            message: `更新失败,${res}`,
+            showClose: true
+          })
+        })
     },
+
     getData() {
-      getList().then(res => {
-        this.tableData = res.data
-      })
+      getList()
+        .then(res => {
+          this.tableData = res.data
+          this.tableDataLoading = false
+        })
+        .catch((res) => {
+          this.$message({
+            type: 'error',
+            message: res,
+            showClose: true
+          })
+        })
     }
   }
 }
