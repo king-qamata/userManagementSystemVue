@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { getADList } from '../network/api'
+import { getADList } from '@/network/api'
 export default {
   name: 'AboutUs',
   data() {

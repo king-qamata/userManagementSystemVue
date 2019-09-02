@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { getList, removeUser, editUser } from '../network/api'
+import { getList, removeUser, editUser } from '@/network/api'
 export default {
   data() {
     return {

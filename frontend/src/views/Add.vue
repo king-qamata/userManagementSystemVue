@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { addUser } from '../network/api'
+import { addUser } from '@/network/api'
 export default {
   data() {
     return {

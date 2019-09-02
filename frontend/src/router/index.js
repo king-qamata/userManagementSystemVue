@@ -18,23 +18,23 @@ export default new VueRouter({
     },
     {
       path: '/home',
-      component: () => import('../views/Customers')
+      component: () => import('views/Customers')
     },
     {
       path: '/about',
-      component: () => import('../views/About')
+      component: () => import('views/About')
     },
     {
       path: '/add',
-      component: () => import('../views/Add')
+      component: () => import('views/Add')
     },
     {
       path: '/login',
-      component: () => import('../views/Login')
+      component: () => import('views/Login')
     },
     {
       path: '/addAdvertisement',
-      component: () => import('../components/addAdvertisement')
+      component: () => import('@/components/addAdvertisement')
     }
   ]
 })
