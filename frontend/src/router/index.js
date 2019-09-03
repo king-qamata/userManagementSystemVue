@@ -9,33 +9,53 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes: [
     {
       path: '/',
-      redirect: '/home'
-    },
-    {
-      path: '/home',
-      component: () => import('views/Customers')
-    },
-    {
-      path: '/about',
-      component: () => import('views/About')
-    },
-    {
-      path: '/add',
-      component: () => import('views/Add')
+      component: () => import('views/Home'),
+      children: [
+        { path: '/home',
+          component: () => import('views/Customers')
+        },
+        {
+          path: '/about',
+          component: () => import('views/About')
+        },
+        {
+          path: '/add',
+          component: () => import('views/Add')
+        },
+        {
+          path: '/addAdvertisement',
+          component: () => import('@/components/addAdvertisement')
+        }
+      ]
     },
     {
       path: '/login',
       component: () => import('views/Login')
-    },
-    {
-      path: '/addAdvertisement',
-      component: () => import('@/components/addAdvertisement')
     }
+
   ]
 })
+router.beforeEach((to, from, next) => {
+  // 当前会话下有效，关闭页面后清除
+  const user = sessionStorage.getItem('user')
+  if (to.path === '/login') {
+    if (user) {
+      next({ path: '/' })
+    } else {
+      next()
+    }
+  } else {
+    if (user) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  }
+})
 
+export default router

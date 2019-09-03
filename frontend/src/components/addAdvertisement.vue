@@ -83,6 +83,7 @@ export default {
     beforeUpload(file) {
       const fd = new FormData()
       fd.append('file', file)
+      // console.log(fd.get('file'))
       // 不能传递对象，将对象拆分
       for (const i in this.form) {
         fd.append(i, this.form[i])

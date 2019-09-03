@@ -8,5 +8,6 @@ urlpatterns = [
     path('addUser', views.add_user),
     path('getADList', views.get_advertisement_list),
     re_path(r'^upload/', views.upload),
-    re_path(r'photos/*', views.get_photo)
+    re_path(r'photos/*', views.get_photo),
+    path('Login', views.login)
 ]

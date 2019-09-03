@@ -6,6 +6,31 @@ import copy
 import os
 
 
+def login(request):
+    ret = HttpResponse('ok')
+    # 允许http://127.0.0.1:8001域向我发请求
+    ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    if request.method == 'OPTIONS':
+        # 所有的头信息都允许
+        ret['Access-Control-Allow-Headers'] = '*'
+        return ret
+    # print(request.POST)
+    account = request.POST.get('account')
+    password = request.POST.get('password')
+    print(account, password)
+    print(type(account), type(password))
+    token = 'admin123456'
+    if (account == 'admin') and (password == '123456'):
+
+        ret = HttpResponse(json.dumps({'token': token}))
+        ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    else:
+        ret = HttpResponse('error', status=402)
+        ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+
+    return ret
+
+
 def get_photo(request):
     print('获取图片:', request.path[1:])
     with open(request.path[1:], "rb") as f:
@@ -104,18 +129,19 @@ def add_user(request):
 
 
 def upload(request):
-    # print(request.POST['name'])
+    ret = HttpResponse('success')
+    # 允许http://127.0.0.1:8001域向我发请求
+    ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    # 所有的头信息都允许
+    ret['Access-Control-Allow-Headers'] = '*'
+    if request.method == 'OPTIONS':
+        print("收到options的请求")
+        return ret
+    print(request.POST.get('file'))
     # for k, v in dict(request.POST).items():
     #     print(k, v)
     with open('./photos/{}.jpg'.format(request.POST['name']), 'wb+') as f:
         f.write(request.FILES.get('file').read())
-    ret = HttpResponse('success')
-    # 允许http://127.0.0.1:8001域向我发请求
-    ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
-    if request.method == 'OPTIONS':
-        # 所有的头信息都允许
-        ret['Access-Control-Allow-Headers'] = '*'
-
     return ret
 
 

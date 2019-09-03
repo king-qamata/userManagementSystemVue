@@ -1,5 +1,15 @@
 import { requests } from './request'
 
+export const Login = params => {
+  console.log(params)
+  return requests({
+    url: '/Login',
+    data: params,
+    method: 'post',
+    headers: ({ 'Content-Type': 'application/x-www-form-urlencoded' })
+  })
+}
+
 export const getList = () => {
   return requests({
     url: '/getList'
