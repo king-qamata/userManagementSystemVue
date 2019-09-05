@@ -14,6 +14,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
+      // redirect: '/home',
       component: () => import('views/Home'),
       children: [
         { path: '/home',
