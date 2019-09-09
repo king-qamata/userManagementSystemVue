@@ -29,10 +29,10 @@
         </div>
       </el-col>
     </el-row>
-    <!-- 嵌套表单 -->
+    <!-- 嵌套表单 显示个人信息 -->
     <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="用户名" :label-width="formLabelWidth">
+        <el-form-item label="用户名">
           <el-input v-model="form.name" auto-complete="off" />
         </el-form-item>
 
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     goHome() {
-      this.$router.push({ path: '/' })
+      this.$router.push({ path: '/home' })
     },
     logout() {
       this.$confirm('确定退出吗？', '提示', { type: 'warning' })
