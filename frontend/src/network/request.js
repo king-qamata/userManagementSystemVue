@@ -45,7 +45,7 @@ export function requests(config) {
         } else {
           data = response.data
         }
-
+        console.log(data)
         // 根据返回的code值来做不同的处理
         // switch (data.rc) {
         //   case 1:
@@ -57,7 +57,6 @@ export function requests(config) {
         //     break
         //   default:
         // }
-        console.log('data', data)
         // return data
         return response
       },
@@ -71,7 +70,7 @@ export function requests(config) {
               err.message = '未授权，请登录'
               break
             case 402:
-              err.message = '登陆失败'
+              err.message = '登录失败'
               break
             case 403:
               err.message = '拒绝访问'

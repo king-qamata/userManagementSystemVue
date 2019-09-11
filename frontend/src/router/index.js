@@ -14,10 +14,13 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      // redirect: '/home',
-      component: () => import('views/Home'),
+      component: () => import('views/Root'),
       children: [
-        { path: '/home',
+        {
+          path: '/home',
+          component: () => import('views/Home')
+        },
+        { path: '/customers',
           component: () => import('views/Customers')
         },
         {
@@ -38,7 +41,6 @@ const router = new VueRouter({
       path: '/login',
       component: () => import('views/Login')
     }
-
   ]
 })
 router.beforeEach((to, from, next) => {
