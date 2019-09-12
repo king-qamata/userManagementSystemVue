@@ -15,9 +15,9 @@ export function requests(config) {
       config => {
         const token = Cookies.get('token')
         if (token) {
-          console.log(config.headers)
+          // console.log(config.headers)
           config.headers.accessToken = token
-          console.log(config.headers)
+          // console.log(config.headers)
         } else {
           router.push({ path: '/login' })
         }
@@ -38,14 +38,14 @@ export function requests(config) {
     // response 拦截器
     instance.interceptors.response.use(
       response => {
-        let data
-        // IE9时response.data是undefined，因此需要使用response.request.responseText(Stringify后的字符串)
-        if (response.data === undefined) {
-          data = JSON.parse(response.request.responseText)
-        } else {
-          data = response.data
-        }
-        console.log(data)
+        // let data
+        // // IE9时response.data是undefined，因此需要使用response.request.responseText(Stringify后的字符串)
+        // if (response.data === undefined) {
+        //   data = JSON.parse(response.request.responseText)
+        // } else {
+        //   data = response.data
+        // }
+        // console.log(data)
         // 根据返回的code值来做不同的处理
         // switch (data.rc) {
         //   case 1:

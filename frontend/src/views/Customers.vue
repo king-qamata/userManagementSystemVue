@@ -34,12 +34,22 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button> -->
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        :current-page="curPage.currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="returnData.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
 
     <!-- 编辑 -->
     <el-dialog title="编辑" :visible.sync="dialogVisible" width="50%">
@@ -51,17 +61,6 @@
         <el-form-item label="出生日期">
           <el-input v-model="editForm.date" />
         </el-form-item>
-
-        <!-- <el-form-item label="出生日期">
-          <el-col :span="11">
-            <el-date-picker
-              type="date"
-              placeholder="选择日期"
-              v-model="editForm.date"
-              style="width: 100%;"
-            ></el-date-picker>
-          </el-col>
-        </el-form-item> -->
 
         <el-form-item label="电话">
           <el-input v-model="editForm.tel" />
@@ -90,7 +89,7 @@ export default {
     return {
       tableDataLoading: true,
       dialogVisible: false,
-      tableData: [],
+      returnData: [],
       // 编辑数据
       editForm: {
         date: '',
@@ -98,7 +97,18 @@ export default {
         tel: '',
         addr: '',
         disc: ''
+      },
+      curPage: {
+        size: 10,
+        currentPage: 1
       }
+    }
+  },
+  computed: {
+    tableData() {
+      const start = this.curPage.size * (this.curPage.currentPage - 1)
+      const end = this.curPage.size * this.curPage.currentPage - 1
+      return this.returnData.slice(start, end)
     }
   },
   mounted() {
@@ -111,6 +121,7 @@ export default {
       // 对原对象进行浅拷贝，解决在编辑中更改时，原数据也更改的问题
       this.editForm = Object.assign({}, row)
     },
+
     handleDelete(index, row) {
       // console.log(index, row.name);
       removeUser({ name: row.name })
@@ -130,6 +141,7 @@ export default {
           })
         })
     },
+
     editSubmit() {
       // console.log(this.editForm);
       this.dialogVisible = false
@@ -154,7 +166,7 @@ export default {
     getData() {
       getList()
         .then(res => {
-          this.tableData = res.data
+          this.returnData = res.data
           this.tableDataLoading = false
         })
         .catch((res) => {
@@ -164,8 +176,20 @@ export default {
             showClose: true
           })
         })
+    },
+    handleSizeChange(size) {
+      this.curPage.size = size
+    },
+    handleCurrentChange(currentPage) {
+      this.curPage.currentPage = currentPage
     }
   }
 }
 </script>
 
+<style scoped>
+.pagination {
+  padding-left: 15%;
+  margin-top: 25px;
+}
+</style>
