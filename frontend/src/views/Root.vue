@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 头部区域 -->
+    <!-- Header -->
     <el-row class="container">
       <el-col :span="24" class="header">
         <el-col :span="10" :class="['logo', isCollapse?'collapseWidth':'defaultWidth']">
@@ -9,7 +9,7 @@
         <el-col :span="10">
           <i class="fa fa-navicon fa-2x collapseIcon" :class="isCollapse?'rotate':''" @click="isCollapse = !isCollapse" />
         </el-col>
-        <!-- 用户头像 用户名 -->
+        <!-- User Details  -->
         <div id="account">
           <el-dropdown trigger="click">
             <div>
@@ -18,21 +18,21 @@
               <img :src="userImg" alt="头像">
             </div>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="goHome">首  页</el-dropdown-item>
-              <el-dropdown-item @click.native="dialogFormVisible = true">个人信息</el-dropdown-item>
-              <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
+              <el-dropdown-item @click.native="goHome">Home</el-dropdown-item>
+              <el-dropdown-item @click.native="dialogFormVisible = true">Edit Username </el-dropdown-item>
+              <el-dropdown-item divided @click.native="logout">logout</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <!-- 嵌套表单 显示个人信息 -->
-          <el-dialog title="个人信息" :visible.sync="dialogFormVisible" style="text-align: left">
+          <!-- Username Edit-->
+          <el-dialog title="Edit Username" :visible.sync="dialogFormVisible" style="text-align: left">
             <el-form :model="form">
-              <el-form-item label="用户名">
+              <el-form-item label="Username">
                 <el-input v-model="form.name" auto-complete="off" />
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
-              <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+              <el-button @click="dialogFormVisible = false">cancel</el-button>
+              <el-button type="primary" @click="dialogFormVisible = false">Ok</el-button>
             </div>
           </el-dialog>
         </div>
@@ -46,38 +46,38 @@
           <el-submenu index="1">
             <template slot="title">
               <i class="fa fa-user-circle-o fa-fw" />
-              <span slot="title"> 用户</span>
+              <span slot="title"> ChangeMaster</span>
             </template>
             <el-menu-item-group>
-              <span slot="title">分组一</span>
-              <el-menu-item index="/customers">用户管理</el-menu-item>
-              <el-menu-item index="/add">添加用户</el-menu-item>
+              <span slot="title">Details about registered users</span>
+              <el-menu-item index="/customers">Users </el-menu-item>
+              <el-menu-item index="/add">Add Users</el-menu-item>
             </el-menu-item-group>
-            <el-menu-item-group title="分组">
-              <el-menu-item index="/home">首页</el-menu-item>
+            <el-menu-item-group title="ChangeMaster Account Details">
+              <el-menu-item index="/home">Account Details </el-menu-item>
             </el-menu-item-group>
             <el-submenu index="1-4">
-              <span slot="title">选项4</span>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
+              <span slot="title">Transactions</span>
+              <el-menu-item index="1-4-1">Collect Change</el-menu-item>
             </el-submenu>
           </el-submenu>
 
           <el-submenu index="2">
             <template slot="title">
               <i class="el-icon-location" />
-              <span slot="title">广告</span>
+              <span slot="title">Linkrrs</span>
             </template>
             <el-menu-item-group>
               <!-- <span slot="title">分组一</span> -->
-              <el-menu-item index="/addAdvertisement">添加广告</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
+              <el-menu-item index="/addAdvertisement">Add Advertisements </el-menu-item>
+              <el-menu-item index="/">Services </el-menu-item>
             </el-menu-item-group>
 
           </el-submenu>
 
           <el-menu-item index="/about">
             <i class="fa fa-image fa-fw" />
-            <span slot="title"> 轮播图</span>
+            <span slot="title"> About us</span>
           </el-menu-item>
 
         </el-menu>

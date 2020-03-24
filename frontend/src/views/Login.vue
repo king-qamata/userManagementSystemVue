@@ -1,12 +1,12 @@
 <template>
   <div class="login-container">
-    <h3>登 录</h3>
+    <h3>Log In</h3>
     <el-form ref="loginForm" :model="loginForm" :rules="fieldRules" :status-icon="false" label-width="80px" class="demo-ruleForm">
-      <el-form-item label="账号 " prop="account">
+      <el-form-item label="User " prop="account">
         <el-input v-model="loginForm.account"> <i slot="prefix" class="fa fa-user fa-lg" /> </el-input>
       </el-form-item>
 
-      <el-form-item label="密码" prop="password" @keyup.enter.native="submitForm('loginForm')">
+      <el-form-item label="Password " prop="password" @keyup.enter.native="submitForm('loginForm')">
         <el-input v-model="loginForm.password" :type="passwordType">
           <i slot="prefix" class="fa fa-lock fa-lg" />
           <i slot="suffix" :class="eyeType" @click="showPassword" />
@@ -14,7 +14,7 @@
       </el-form-item>
 
       <el-form-item class="login-btn">
-        <el-button type="primary" @click="submitForm('loginForm')">提 交</el-button>
+        <el-button type="primary" @click="submitForm('loginForm')">Sign in</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -35,10 +35,10 @@ export default {
       fieldRules: {
         // 'blur' 光标消失时触发
         account: [
-          { required: true, message: '请输入账号', trigger: 'blur' }
+          { required: true, message: 'user name', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, message: 'Password ', trigger: 'blur' }
         ]
       }
     }
