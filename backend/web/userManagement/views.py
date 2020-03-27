@@ -4,16 +4,62 @@ import sqlite3
 import json
 import copy
 import os
-
-from rest_framework import generics
-
+from django.views.generic import TemplateView, View
+from rest_framework import generics, status
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
 from . import models
 from . import serializers
+from .serializers import UserSignupSerializer, UserSerializerLogin
+from .models import CustomUser
 
-
+class HomePageView(TemplateView):
+    template_name = 'home.html'
 class UserListView(generics.ListCreateAPIView):
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.UserSerializer
+
+
+class UserCreate(generics.CreateAPIView):
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = UserSignupSerializer
+
+    @staticmethod
+    def post(request):
+        """
+        create user
+        """
+
+        serializer = UserSignupSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response(UserSerializerLogin(user).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(APIView):
+    authentication_classes = ()
+    permission_classes = ()
+    serializer_class = UserSerializerLogin
+
+    @staticmethod
+    def post(request):
+        """
+        Get user data and API token
+        """
+ 
+        user = get_object_or_404(CustomUser, username=request.data.get('username'))
+        user = authenticate(username=user.username, password=request.data.get('password'))
+        if user:
+            serializer = UserSerializerLogin(user)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+ 
+
+
 
 
 def login(request):

@@ -1,0 +1,18 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}Home page{% endblock title %}
+
+{% block content %}
+<h1>Home page</h1>
+<img src="{% static 'images/ois.jpg' %}" class="img-fluid" alt="FalconX launch"/>
+{% if user.is_authenticated %}
+<p>Hi {{ user.first_name }} {{ user.last_name }}!</p>
+<p><a href="{% url 'logout' %}">Log Out</a></p>
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">Log In</a> |
+<a href="{% url 'signup' %}">Sign Up</a>
+{% endif %}
+{% endblock content %}
+

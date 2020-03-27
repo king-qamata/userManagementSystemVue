@@ -40,6 +40,10 @@ const router = new VueRouter({
     {
       path: '/login',
       component: () => import('views/Login')
+    },
+    {
+      path: '/signup',
+      component: () => import('views/SignUp')
     }
   ]
 })
@@ -47,6 +51,12 @@ router.beforeEach((to, from, next) => {
   // 当前会话下有效，关闭页面后清除
   const user = sessionStorage.getItem('user')
   if (to.path === '/login') {
+    if (user) {
+      next({ path: '/' })
+    } else {
+      next()
+    }
+  } else if (to.path === '/signup') {
     if (user) {
       next({ path: '/' })
     } else {

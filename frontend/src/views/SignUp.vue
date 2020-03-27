@@ -1,44 +1,53 @@
 <template>
   <div class="login-container">
-    <h3>Log In</h3>
-    <el-form ref="loginForm" :model="loginForm" :rules="fieldRules" :status-icon="false" label-width="80px" class="demo-ruleForm">
-      <el-form-item label="User " prop="account">
-        <el-input v-model="loginForm.account"> <i slot="prefix" class="fa fa-user fa-lg" /> </el-input>
+    <h3>Sign Up</h3>
+    <el-form ref="signupForm" :model="signupForm" :rules="fieldRules" :status-icon="false" label-width="80px" class="demo-ruleForm">
+      <el-form-item label="Username" prop="username">
+        <el-input v-model="signupForm.username"> <i slot="prefix" class="fa fa-user fa-lg" /> </el-input>
       </el-form-item>
 
-      <el-form-item label="Password " prop="password" @keyup.enter.native="submitForm('loginForm')">
-        <el-input v-model="loginForm.password" :type="passwordType">
+      <el-form-item label="Password " prop="password" @keyup.enter.native="submitForm('signupForm')">
+        <el-input v-model="signupForm.password" :type="passwordType">
           <i slot="prefix" class="fa fa-lock fa-lg" />
           <i slot="suffix" :class="eyeType" @click="showPassword" />
         </el-input>
       </el-form-item>
 
+      <el-form-item label="Email" prop="email">
+        <el-input v-model="signupForm.email"> <i slot="prefix" class="fa fa-email fa-lg" /> </el-input>
+      </el-form-item>
+
       <el-form-item class="login-btn">
-        <el-button type="primary" @click="submitForm('loginForm')">Sign in</el-button>
+        <el-button type="primary" @click="submitForm('signupForm')">Register</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import { Login } from '@/network/api'
+import { Register } from '@/network/api'
 import Cookie from 'js-cookie'
+
 export default {
   data() {
     return {
-      loginForm: {
-        account: '',
+      signupForm: {
+        username: '',
+        email: '',
         password: ''
       },
       passwordType: 'password',
       eyeType: 'fa fa-eye-slash fa-lg',
       fieldRules: {
         // 'blur' 光标消失时触发
-        account: [
+        username: [
           { required: true, message: 'user name', trigger: 'blur' }
         ],
         password: [
           { required: true, message: 'Password ', trigger: 'blur' }
+        ],
+        email: [
+          { required: true, message: 'Email address ', trigger: 'blur' }
         ]
       }
     }
@@ -49,11 +58,11 @@ export default {
         // 表单验证通过执行
         if (valid) {
           // console.log('表单验证通过')
-          const loginInfo = this.loginForm
-          Login(loginInfo)
+          const loginInfo = this.signupForm
+          Register(loginInfo)
             .then((res) => {
               Cookie.set('token', res.data.token)
-              sessionStorage.setItem('user', this.loginForm.account)
+              sessionStorage.setItem('user', this.signupForm.username)
               this.$router.push({ path: '/' })
             })
             .catch(res => {
