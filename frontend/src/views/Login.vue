@@ -54,6 +54,7 @@ export default {
             .then((res) => {
               Cookie.set('token', res.data.token)
               sessionStorage.setItem('user', this.loginForm.account)
+              this.$store.commit('auth/SET_USER', res.data)
               this.$router.push({ path: '/' })
             })
             .catch(res => {

@@ -3,7 +3,7 @@ import { requests } from './request'
 export const Login = params => {
   console.log(params)
   return requests({
-    url: '/signin',
+    url: '/signin/',
     data: params,
     method: 'post',
     headers: ({ 'Content-Type': 'application/x-www-form-urlencoded' })
@@ -13,7 +13,7 @@ export const Login = params => {
 export const Register = params => {
   console.log(params)
   return requests({
-    url: '/api/v1/users/signup',
+    url: '/api/v1/users/userCreate',
     data: params,
     method: 'post',
     headers: ({ 'Content-Type': 'application/x-www-form-urlencoded' })

@@ -14,6 +14,7 @@ from . import models
 from . import serializers
 from .serializers import UserSignupSerializer, UserSerializerLogin
 from .models import CustomUser
+from rest_framework.authtoken.models import Token
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
@@ -39,6 +40,43 @@ class UserCreate(generics.CreateAPIView):
             return Response(UserSerializerLogin(user).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+def user_create(request):
+    
+    ret = HttpResponse('ok')
+    # 允许http://127.0.0.1:8001域向我发请求
+    ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    if request.method == 'OPTIONS':
+        # 所有的头信息都允许
+        ret['Access-Control-Allow-Headers'] = '*'
+    return ret
+        # print(request.POST)
+    serializer = UserSignupSerializer(data=request.data, context={'request': request})
+    if serializer.is_valid():
+        user = serializer.save()
+        return Response(UserSerializerLogin(user).data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    email  = request.POST.get('email')
+    print(username, password, email)
+    print(type(username), type(password),type(email))
+    user = get_object_or_404(CustomUser, username=request.data.get('username'))
+    user = authenticate(username=user.username, password=request.data.get('password'))
+    token = user.token
+    if user:
+        #serializer = UserSerializerLogin(user)
+            
+        #if (account == 'admin') and (password == '123456'):
+
+        serializer = UserSerializerLogin(user)
+        ret = Response(serializer.data)
+        ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    else:
+        ret = HttpResponse('error', status=status.HTTP_400_BAD_REQUEST)
+        ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+
+    return ret
+
 
 class LoginView(APIView):
     authentication_classes = ()
@@ -50,8 +88,9 @@ class LoginView(APIView):
         """
         Get user data and API token
         """
- 
-        user = get_object_or_404(CustomUser, username=request.data.get('username'))
+
+
+        user = get_object_or_404(CustomUser, username=request.data.get('account'))
         user = authenticate(username=user.username, password=request.data.get('password'))
         if user:
             serializer = UserSerializerLogin(user)
@@ -63,25 +102,54 @@ class LoginView(APIView):
 
 
 def login(request):
+   # ret = HttpResponse('ok')
+    # 允许http://127.0.0.1:8001域向我发请求
+   # ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    #if request.method == 'OPTIONS':
+        # 所有的头信息都允许
+     #   ret['Access-Control-Allow-Headers'] = '*'
+      #  return ret
+    # print(request.POST)
+   # account = request.POST.get('account')
+   # password = request.POST.get('password')
+   # print(account, password)
+   # print(type(account), type(password))
+   # token = 'admin123456'
+   # if (account == 'admin') and (password == '123456'):
+
+        #ret = HttpResponse(json.dumps({'token': token}))
+        #ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+    #else:
+     #   ret = HttpResponse('error', status=402)
+      #  ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
+
+   # return ret
+
     ret = HttpResponse('ok')
     # 允许http://127.0.0.1:8001域向我发请求
     ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
     if request.method == 'OPTIONS':
         # 所有的头信息都允许
         ret['Access-Control-Allow-Headers'] = '*'
-        return ret
-    # print(request.POST)
-    account = request.POST.get('account')
+    return ret
+        # print(request.POST)
+    username = request.POST.get('account')
     password = request.POST.get('password')
-    print(account, password)
-    print(type(account), type(password))
-    token = 'admin123456'
-    if (account == 'admin') and (password == '123456'):
+    print(username, password)
+    print(type(username), type(password))
+    user = get_object_or_404(CustomUser, username=request.data.get('username'))
+    user = authenticate(username=user.username, password=request.data.get('password'))
+    token = user.token
+    if user:
+        #serializer = UserSerializerLogin(user)
+            
+        #if (account == 'admin') and (password == '123456'):
 
-        ret = HttpResponse(json.dumps({'token': token}))
+        serializer = UserSerializerLogin(user)
+        ret = Response(serializer.data)
         ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
     else:
-        ret = HttpResponse('error', status=402)
+        ret = HttpResponse('error', status=status.HTTP_400_BAD_REQUEST)
         ret['Access-Control-Allow-Origin'] = 'http://localhost:8080'
 
     return ret

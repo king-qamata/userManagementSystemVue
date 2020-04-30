@@ -15,5 +15,6 @@ urlpatterns = [
     re_path(r'photos/*', views.get_photo),
     path("signup/", UserCreate.as_view(), name="user_create"),
     path("signin/", LoginView.as_view(), name="login"),
-    path('Login', views.login)
+    path('Login', views.login),
+    path('userCreate', views.user_create)
 ]
