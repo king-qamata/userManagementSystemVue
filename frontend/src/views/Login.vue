@@ -3,7 +3,7 @@
     <h3>Log In</h3>
     <el-form ref="loginForm" :model="loginForm" :rules="fieldRules" :status-icon="false" label-width="80px" class="demo-ruleForm">
       <el-form-item label="User " prop="account">
-        <el-input v-model="loginForm.account"> <i slot="prefix" class="fa fa-user fa-lg" /> </el-input>
+        <el-input v-model="loginForm.username"> <i slot="prefix" class="fa fa-user fa-lg" /> </el-input>
       </el-form-item>
 
       <el-form-item label="Password " prop="password" @keyup.enter.native="submitForm('loginForm')">
@@ -21,20 +21,20 @@
 </template>
 
 <script>
-import { Login } from '@/network/api'
+// import { Login } from '@/network/api'
 import Cookie from 'js-cookie'
 export default {
   data() {
     return {
       loginForm: {
-        account: '',
+        username: '',
         password: ''
       },
       passwordType: 'password',
       eyeType: 'fa fa-eye-slash fa-lg',
       fieldRules: {
         // 'blur' 光标消失时触发
-        account: [
+        username: [
           { required: true, message: 'user name', trigger: 'blur' }
         ],
         password: [
@@ -50,11 +50,20 @@ export default {
         if (valid) {
           // console.log('表单验证通过')
           const loginInfo = this.loginForm
-          Login(loginInfo)
+          // Login(loginInfo)
+          this.$store
+            .dispatch('auth/signin', // {
+              // username: this.username,
+              //password: this.password
+            //}
+              loginInfo)
             .then((res) => {
               Cookie.set('token', res.data.token)
-              sessionStorage.setItem('user', this.loginForm.account)
-              this.$store.commit('auth/SET_USER', res.data)
+              sessionStorage.setItem('user', this.loginForm.username)
+              window.localStorage.setItem('user', JSON.stringify(res.data))
+              // this.$store.commit('auth/SET_USER', res.data)
+              this.$store.commit('auth/SET_LOGGED', true)
+              this.$store.commit('auth/SET_USER', JSON.parse(window.localStorage.getItem('user')))
               this.$router.push({ path: '/' })
             })
             .catch(res => {

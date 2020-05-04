@@ -90,7 +90,7 @@ class LoginView(APIView):
         """
 
 
-        user = get_object_or_404(CustomUser, username=request.data.get('account'))
+        user = get_object_or_404(CustomUser, username=request.data.get('username'))
         user = authenticate(username=user.username, password=request.data.get('password'))
         if user:
             serializer = UserSerializerLogin(user)

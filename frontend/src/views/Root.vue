@@ -96,7 +96,7 @@ export default {
     return {
       headerName: 'USERADMIN',
       isCollapse: false,
-      userName: 'admin',
+      userName: window.sessionStorage.getItem('user'),
       userImg: require('@/assets/logo.png'),
       dialogFormVisible: false,
       form: {

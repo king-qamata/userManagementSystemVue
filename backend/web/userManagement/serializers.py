@@ -7,14 +7,14 @@ from rest_framework.authtoken.models import Token
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
-        fields = ('email', 'username', )
+        fields = ('email', 'username', 'first_name', 'last_name' )
 
 
 
 class UserSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
-        fields = ('username', 'email', 'password')
+        fields = ( 'first_name', 'last_name', 'username', 'email', 'password',)
         extra_kwargs = {'password': {'write_only': True}}
     def create(self, validated_data):
         user = CustomUser.objects.create(
@@ -31,8 +31,15 @@ class UserSerializerLogin(serializers.ModelSerializer):
 
     class Meta:
         model = models.CustomUser
-        fields = ( 'username', 'password','token')
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ( 'username', 'password','token', 'email', 'is_active', 'is_staff', 'date_joined', 'first_name', 'last_name' )
+        extra_kwargs = {'password': {'write_only': True},
+                        'email': {'read_only': True},
+                        'is_active': {'read_only': True},
+                        'is_staff': {'read_only': True},
+                        'date_joined': {'read_only': True},
+                        'first_name': {'read_only': True},
+                        'last_name': {'read_only': True}
+                         }
 
     @staticmethod
     def get_profile(user):

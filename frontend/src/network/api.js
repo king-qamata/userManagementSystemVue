@@ -1,10 +1,10 @@
 import { requests } from './request'
 
-export const Login = params => {
-  console.log(params)
+export const Login = payload => {
+  console.log(payload)
   return requests({
     url: '/signin/',
-    data: params,
+    data: payload,
     method: 'post',
     headers: ({ 'Content-Type': 'application/x-www-form-urlencoded' })
   })

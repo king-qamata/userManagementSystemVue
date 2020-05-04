@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import store from '@/store/index';
 
 Vue.use(VueRouter)
 
@@ -43,15 +44,17 @@ const router = new VueRouter({
     },
     {
       path: '/signup',
-      component: () => import('views/SignUp')
+      component: () => import('views/auth/Register')
     }
   ]
 })
 router.beforeEach((to, from, next) => {
   // 当前会话下有效，关闭页面后清除
-  const user = sessionStorage.getItem('user')
+  const user = localStorage.getItem('user')
   if (to.path === '/login') {
     if (user) {
+      // store.commit('auth/SET_LOGGED', true)
+      // store.commit('auth/SET_USER', JSON.parse(window.localStorage.getItem('user')))
       next({ path: '/' })
     } else {
       next()
