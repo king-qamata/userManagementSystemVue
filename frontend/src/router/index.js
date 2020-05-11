@@ -15,22 +15,22 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: () => import('views/Root'),
+      component: () => import('@/views/Root'),
       children: [
         {
           path: '/home',
-          component: () => import('views/Home')
+          component: () => import('@/views/Home')
         },
         { path: '/customers',
-          component: () => import('views/Customers')
+          component: () => import('@/views/Customers')
         },
         {
           path: '/about',
-          component: () => import('views/About')
+          component: () => import('@/views/About')
         },
         {
           path: '/add',
-          component: () => import('views/Add')
+          component: () => import('@/views/Add')
         },
         {
           path: '/addAdvertisement',
@@ -40,11 +40,13 @@ const router = new VueRouter({
     },
     {
       path: '/login',
-      component: () => import('views/Login')
+      name: 'login',
+      component: () => import('@/views/Login')
     },
     {
       path: '/signup',
-      component: () => import('views/auth/Register')
+      name: 'signup',
+      component: () => import('@/views/SignUp')
     }
   ]
 })

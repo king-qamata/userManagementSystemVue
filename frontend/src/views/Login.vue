@@ -1,5 +1,8 @@
 <template>
   <div class="login-container">
+    <div class="text-left">
+      <router-link :to="{ name: 'signup' }">Not yet Registered?</router-link>
+    </div>
     <h3>Log In</h3>
     <el-form ref="loginForm" :model="loginForm" :rules="fieldRules" :status-icon="false" label-width="80px" class="demo-ruleForm">
       <el-form-item label="User " prop="account">
