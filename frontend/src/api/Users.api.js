@@ -1,6 +1,6 @@
 import httpClient from './HttpClient';
 
-const END_POINT = '/users/users';
+const END_POINT = 'http://127.0.0.1:8000/api/v1/users/?format=json';
 
 const getAllUsers = () => httpClient.get(END_POINT);
 // you can pass arguments to use as request parameters/data

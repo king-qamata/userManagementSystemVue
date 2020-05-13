@@ -5,18 +5,18 @@
       <el-table-column label="Username " width="100">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>Description: {{ scope.row.desc }}</p>
+            <p>Full Name: {{ scope.row.first_name }} {{ scope.row.last_name }}</p>
             <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
+              <el-tag size="medium">{{ scope.row.username }}</el-tag>
             </div>
           </el-popover>
         </template>
       </el-table-column>
 
-      <el-table-column label="Date" width="180">
+      <el-table-column label="Email" width="180">
         <template slot-scope="scope">
           <i class="el-icon-time" />
-          <span>{{ scope.row.date }}</span>
+          <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
 
@@ -165,9 +165,15 @@ export default {
     },
 
     getData() {
-      getList()
-        .then(res => {
-          this.returnData = res.data
+      // getList()
+      this.$store
+        .dispatch('users/fetchUsers')
+      //  .then(res => {
+        .then(response => {
+          this.$store.commit('users/SET_USERS', JSON.stringify(response.data))
+          this.loading = false
+          // this.returnData = res.data
+          this.returnData = response.data
           this.tableDataLoading = false
         })
         .catch((res) => {

@@ -13,7 +13,7 @@ export const Login = payload => {
 export const Register = params => {
   console.log(params)
   return requests({
-    url: '/api/v1/users/userCreate',
+    url: '/api/v1/users/signup/',
     data: params,
     method: 'post',
     headers: ({ 'Content-Type': 'application/x-www-form-urlencoded' })
@@ -22,7 +22,8 @@ export const Register = params => {
 
 export const getList = () => {
   return requests({
-    url: '/getList'
+    url: '/api/v1/users/?format=json',
+    headers: ({ 'Content-Type': 'application/x-www-form-urlencoded' })
   })
 }
 

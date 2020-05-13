@@ -6,8 +6,19 @@ from rest_framework.authtoken.models import Token
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
+        #profile = serializers.SerializerMethodField()
         model = models.CustomUser
         fields = ('email', 'username', 'first_name', 'last_name' )
+
+    @staticmethod
+    def get_profile(user):
+        """
+        Get or create profile
+        """
+        user, created = CustomUser.objects.get_or_create(user=user)
+        #profile, created = Profile.objects.get_or_create(user=user)
+        #return ProfileSerializer(profile, read_only=True).data
+        return UserSerializer(user, read_only=True).data
 
 
 
@@ -62,3 +73,9 @@ class UserSerializerLogin(serializers.ModelSerializer):
         token, created = Token.objects.get_or_create(user=user)
         return token.key
 
+
+class UserSerializerCreate(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('email', 'first_name', 'last_name', 'password','username',)

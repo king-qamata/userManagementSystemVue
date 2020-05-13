@@ -20,6 +20,14 @@
         <el-input v-model="signupForm.email"> <i slot="prefix" class="fa fa-email fa-lg" /> </el-input>
       </el-form-item>
 
+      <el-form-item label="First Name" prop="first_name">
+        <el-input v-model="signupForm.first_name"> <i slot="prefix" class="fa fa-email fa-lg" /> </el-input>
+      </el-form-item>
+
+      <el-form-item label="Last Name" prop="last_name">
+        <el-input v-model="signupForm.last_name"> <i slot="prefix" class="fa fa-email fa-lg" /> </el-input>
+      </el-form-item>
+
       <el-form-item class="login-btn">
         <el-button type="primary" @click="submitForm('signupForm')">Register</el-button>
       </el-form-item>
@@ -28,7 +36,7 @@
 </template>
 
 <script>
-import { Register } from '@/network/api'
+// import { Register } from '@/network/api'
 import Cookie from 'js-cookie'
 
 export default {
@@ -37,7 +45,9 @@ export default {
       signupForm: {
         username: '',
         email: '',
-        password: ''
+        password: '',
+        first_name: '',
+        last_name: ''
       },
       passwordType: 'password',
       eyeType: 'fa fa-eye-slash fa-lg',
@@ -51,6 +61,12 @@ export default {
         ],
         email: [
           { required: true, message: 'Email address ', trigger: 'blur' }
+        ],
+        first_name: [
+          { required: true, message: 'First Name ', trigger: 'blur' }
+        ],
+        last_name: [
+          { required: true, message: 'last Name ', trigger: 'blur' }
         ]
       }
     }
@@ -62,10 +78,16 @@ export default {
         if (valid) {
           // console.log('表单验证通过')
           const loginInfo = this.signupForm
-          Register(loginInfo)
+          this.$store
+            .dispatch('auth/signup',
+              loginInfo)
             .then((res) => {
               Cookie.set('token', res.data.token)
               sessionStorage.setItem('user', this.signupForm.username)
+              window.localStorage.setItem('user', JSON.stringify(res.data))
+              // this.$store.commit('auth/SET_USER', res.data)
+              this.$store.commit('auth/SET_LOGGED', true)
+              this.$store.commit('auth/SET_USER', JSON.parse(window.localStorage.getItem('user')))
               this.$router.push({ path: '/' })
             })
             .catch(res => {

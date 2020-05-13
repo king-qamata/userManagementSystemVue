@@ -5,6 +5,7 @@ import {
   resetPassword
 } from '@/api/Auth.api'
 import { Login } from '@/network/api'
+import { Register } from '@/network/api'
 
 export default {
   namespaced: true,
@@ -34,6 +35,11 @@ export default {
       commit
     }, payload) {
       return register(payload)
+    },
+    signup({
+      commit
+    }, payload) {
+      return Register(payload)
     },
     recoveryAccount({ commit }, payload) {
       return recoveryAccount(payload)

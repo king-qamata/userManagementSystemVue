@@ -9,8 +9,13 @@ from .models import CustomUser
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
+    exclude = ['date_joined']
     model = CustomUser
-    list_display = ['email', 'username', 'is_active']
+    list_display = ['email', 'username', 'is_active','is_staff',]
+
+#class UserAdmin(admin.ModelAdmin):
+    #list_display = ['email', 'username', 'is_active','is_staff',]
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+#admin.site.register(CustomUser, UserAdmin)

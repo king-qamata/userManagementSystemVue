@@ -12,15 +12,43 @@ from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from . import models
 from . import serializers
-from .serializers import UserSignupSerializer, UserSerializerLogin
+from .serializers import UserSignupSerializer, UserSerializerLogin, UserSerializerCreate, UserSerializer
 from .models import CustomUser
 from rest_framework.authtoken.models import Token
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
-class UserListView(generics.ListCreateAPIView):
+#class UserListView(generics.ListCreateAPIView):
+class UserListView(APIView):
+    authentication_classes = ()
+    permission_classes = ()
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.UserSerializer
+
+
+    @staticmethod
+    def get(request):
+        """
+        List users
+        """
+
+        users = CustomUser.objects.all()
+        return Response(UserSerializer(users, many=True).data)
+
+    @staticmethod
+    def post(request):
+        """
+        Create user
+        """
+
+        serializer = UserSerializerCreate(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            user = serializer.save()
+            user.set_password(serializer.validated_data['password'])
+            user.save()
+            Profile(user=user).save()
+            return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserCreate(generics.CreateAPIView):
