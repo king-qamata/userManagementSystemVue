@@ -1,14 +1,38 @@
 from rest_framework import serializers
 from . import models
-from .models import CustomUser
+from .models import CustomUser, Profile
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
+
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = '__all__'
+
+    @staticmethod
+    def get_profile(user):
+        """
+        Get or create profile
+        """
+        #user, created = CustomUser.objects.get_or_create(user=user)
+        profile, created = Profile.objects.get_or_create(user=user)
+        return ProfileSerializer(profile, read_only=True).data
+
+
+class ProfileSerializerUpdate(serializers.ModelSerializer):
+
+    class Meta:
+        model = Profile
+        fields = ('image',)
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         #profile = serializers.SerializerMethodField()
         model = models.CustomUser
-        fields = ('email', 'username', 'first_name', 'last_name' )
+        fields = ('email', 'username', 'first_name', 'last_name','is_active', 'is_staff', )
 
     @staticmethod
     def get_profile(user):
@@ -79,3 +103,13 @@ class UserSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name', 'password','username',)
+
+
+class UserSerializerUpdate(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.CustomUser
+        fields = ('first_name', 'last_name', 'email', 'is_active', 'is_staff', 'date_joined', )
+        extra_kwargs = {'password': {'write_only': True},
+                        'date_joined': {'read_only': True}
+                        }

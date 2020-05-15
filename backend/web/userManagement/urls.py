@@ -1,10 +1,13 @@
 from django.urls import path, re_path
 from userManagement import views
 from .views import HomePageView
-from .views import UserCreate, LoginView
+from .views import UserCreate, LoginView, UserDetail, ProfileView, ProfileDetail
 
 urlpatterns = [
     path('', views.UserListView.as_view()),
+    path('<int:pk>', UserDetail.as_view()),
+    path('profiles', ProfileView.as_view()),
+    path('profiles/<int:pk>', ProfileDetail.as_view()),
     path('home', HomePageView.as_view(), name='home'),
     path('getList', views.get_list),
     path('removeUser', views.remove_user),

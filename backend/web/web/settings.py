@@ -47,6 +47,12 @@ INSTALLED_APPS = [
 
     'api',
     'userManagement',
+    #'v1.credits.apps.CreditsConfig',
+    #'v1.filters.apps.FiltersConfig',
+    #'v1.posts.apps.PostsConfig',
+    #'v1.private_messages.apps.PrivateMessagesConfig',
+    #'v1.replies.apps.RepliesConfig',
+    #'v1.votes.apps.VotesConfig',
 
 ]
 
