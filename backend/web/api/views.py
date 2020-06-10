@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Administrator, Moderator
 from .serializers import AdministratorSerializer, AdministratorSerializerCreate, ModeratorSerializer, ModeratorSerializerCreate
-from v1.utils import constants
-from v1.utils.permissions import is_administrator
+from utils import constants
+from utils.permissions import is_administrator
 # Create your views here.
 # administrators
 class AdministratorView(APIView):

@@ -97,6 +97,8 @@ export default {
       headerName: 'USERADMIN',
       isCollapse: false,
       userName: window.sessionStorage.getItem('user'),
+      // userName: this.$store.getters.getMe.username,
+      // {{ $store.getters.flavor }}
       userImg: require('@/assets/logo.png'),
       dialogFormVisible: false,
       form: {
@@ -104,6 +106,12 @@ export default {
       }
     }
   },
+
+ // computed: {
+  //  userName() {
+  //    return this.$store.getters.auth.username
+ //   }
+ // },
   methods: {
     handleOpen(key, keyPath) {
       console.log(key, keyPath)

@@ -1,5 +1,4 @@
-from v1.user_roles.models.administrator import Administrator
-from v1.user_roles.models.moderator import Moderator
+from api.models import Administrator, Moderator 
 
 
 def is_administrator(user):

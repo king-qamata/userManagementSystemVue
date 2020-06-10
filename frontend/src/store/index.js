@@ -35,6 +35,7 @@ export default new Vuex.Store({
     systemEmail
   },
   state: {},
+  getters: {},
   mutations: {},
   actions: {}
 })
